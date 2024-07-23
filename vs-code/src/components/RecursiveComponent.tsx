@@ -57,25 +57,24 @@
 // export default RecursiveComponent
 
 import { useState } from "react";
-import { IFile } from "../interfaces";
-import RenderFileIcon from "../components/renderFileIcon";
-import BottomArrowIcon from "./SVG/Bottom";
-import RightArrowIcon from "./SVG/Right";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  //   setClickedFileAction,
-  //   setOpenedFilesAction,
+  setClickedFile,
   setOpenedFiles,
 } from "../../src/App/features/fileTreeSlicer";
 import { RootState } from "../../src/App/Store";
 import { checkFileExists } from "../../src/utilites/functions";
+import RenderFileIcon from "../components/renderFileIcon";
+import { IFile } from "../interfaces";
+import BottomArrowIcon from "./SVG/Bottom";
+import RightArrowIcon from "./SVG/Right";
 
 interface IProps {
   fileTree: IFile;
 }
 
 const RecursiveComponent = ({ fileTree }: IProps) => {
-  const { id, name, isFolder, children } = fileTree;
+  const { id, name, isFolder, children, content } = fileTree;
   const dispatch = useDispatch();
   const { openedFiles } = useSelector((state: RootState) => state.fileTree);
   const [isOpen, setIsOpen] = useState<boolean>(true);
@@ -84,13 +83,9 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
   const toggle = () => setIsOpen((prev) => !prev);
   const onFileClicked = () => {
     const exists = checkFileExists(openedFiles, id);
-    // dispatch(
-    //   setClickedFileAction({
-    //     filename: name,
-    //     fileContent: content,
-    //     activeTabId: id,
-    //   })
-    // );
+    dispatch(
+      setClickedFile({ filename: name, fileContent: content, activeTabId: id })
+    );
     if (exists) return;
     dispatch(setOpenedFiles([...openedFiles, fileTree]));
   };
