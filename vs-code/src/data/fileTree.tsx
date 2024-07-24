@@ -23,7 +23,13 @@ export const FileTree: IFile = {
       id: uuidv4(),
       name: "index.html",
       isFolder: false,
-      content:"index.html content"
+      content: `export interface IFile{
+    id:string,
+    name: string,
+    isFolder: boolean,
+    children ?: IFile[],
+    content ?: string | undefined
+ }`,
     },
     {
       id: uuidv4(),

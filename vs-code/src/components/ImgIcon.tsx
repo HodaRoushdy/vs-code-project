@@ -1,7 +1,8 @@
 interface IProps{
-    src:string
+  src: string,
+  className?:string
 }
-const ImgIcon = ({ src }: IProps) => {
-  return <img width={20} height={20} src={src} />;
+const ImgIcon = ({ src, className = "w-5 h-5" }: IProps) => {
+  return <img src={src} className={className } />;
 };
 export default ImgIcon
