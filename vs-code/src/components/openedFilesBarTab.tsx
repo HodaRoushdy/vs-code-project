@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setClickedFile, setOpenedFiles } from "../App/features/fileTreeSlicer";
+import { setClickedFile, setOpenedFiles, setTabIdToRemove } from "../App/features/fileTreeSlicer";
 import { IFile } from "../interfaces";
 import CloseIcon from "./SVG/CloseIcon";
 import RenderFileIcon from "./renderFileIcon";
@@ -20,6 +20,7 @@ const OpenedFilesBarTab = ({ file }: IProps) => {
     
     );
   };
+
   const removeTab = (id:string) => {
     const filtered = openedFiles.filter(ele => ele.id !== id);
     const lastId = filtered[filtered.length - 1];
@@ -39,7 +40,12 @@ const OpenedFilesBarTab = ({ file }: IProps) => {
           ? "border-t-[2px] border-t-[#cf6ccf]"
           : "border-t-[2px] border-t-transparent"
       }`}
-      onClick={onClickHandler}>
+      onClick={onClickHandler}
+      onContextMenu={e => {
+        e.preventDefault();
+        dispatch(setTabIdToRemove(file.id));
+      }}
+    >
       <RenderFileIcon filename={file.name} />
       <span className="cursor-pointer duration-300 flex justify-center items-center w-fit mx-2 p-1 rounded-md">
         {file.name}
